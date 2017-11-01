@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="background2" tilewidth="32" tileheight="32">
+  <image source="raw/background2.png" width="97" height="193"/>
+  <terraintypes>
+   <terrain name="sand" tile="4"/>
+   <terrain name="grass" tile="13"/>
+  </terraintypes>
+  <tile id="0" terrain="1,1,1,0"/>
+  <tile id="1" terrain="1,1,0,0"/>
+  <tile id="2" terrain="1,1,0,1"/>
+  <tile id="3" terrain="1,0,1,0"/>
+  <tile id="4" terrain="0,0,0,0"/>
+  <tile id="5" terrain="0,1,0,1"/>
+  <tile id="6" terrain="1,0,1,1"/>
+  <tile id="7" terrain="0,0,1,1"/>
+  <tile id="8" terrain="0,1,1,1"/>
+  <tile id="9" terrain="0,0,0,1"/>
+  <tile id="10" terrain="0,0,1,1"/>
+  <tile id="11" terrain="0,0,1,0"/>
+  <tile id="12" terrain="0,1,0,1"/>
+  <tile id="13" terrain="1,1,1,1"/>
+  <tile id="14" terrain="1,0,1,0"/>
+  <tile id="15" terrain="0,1,0,0"/>
+  <tile id="16" terrain="1,1,0,0"/>
+  <tile id="17" terrain="1,0,0,0"/>
+ </tileset>
+ <tileset firstgid="19" name="angle_rock_left" tilewidth="32" tileheight="32">
+  <image source="raw/angle_rock_left.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="44" name="angle_rock_right" tilewidth="32" tileheight="32">
+  <image source="raw/angle_rock_right.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="69" name="Beach_beach_sign_07" tilewidth="32" tileheight="32">
+  <image source="raw/Beach_beach_sign_07.png" width="64" height="97"/>
+ </tileset>
+ <tileset firstgid="75" name="DomLevel3_2x2_DomLevel3_2x2_1" tilewidth="32" tileheight="32">
+  <image source="raw/DomLevel3_2x2_DomLevel3_2x2_1.png" width="194" height="163"/>
+ </tileset>
+ <tileset firstgid="105" name="DomLevel6_3x2_DomLevel6_3x2_13" tilewidth="32" tileheight="32">
+  <image source="raw/DomLevel6_3x2_DomLevel6_3x2_13.png" width="37" height="32"/>
+ </tileset>
+ <tileset firstgid="106" name="DomLevel6_3x2_DomLevel6_3x2_14" tilewidth="32" tileheight="32">
+  <image source="raw/DomLevel6_3x2_DomLevel6_3x2_14.png" width="38" height="32"/>
+ </tileset>
+ <tileset firstgid="107" name="DomPalma_DomPalma_6" tilewidth="32" tileheight="32">
+  <image source="raw/DomPalma_DomPalma_6.png" width="68" height="96"/>
+ </tileset>
+ <tileset firstgid="113" name="Mushrms_Mshrm_21" tilewidth="32" tileheight="32">
+  <image source="raw/Mushrms_Mshrm_21.png" width="98" height="96"/>
+ </tileset>
+ <tileset firstgid="122" name="Reservoir_Reservoir_3" tilewidth="32" tileheight="32">
+  <image source="raw/Reservoir_Reservoir_3.png" width="160" height="129"/>
+ </tileset>
+ <layer name="background" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztnNlOwzAUBU3ZCbTQ//9YgpCFZdl1ArI9wDyMsjQbOT13CXGPIYRjJ25WbldeOp5DtnNSDxTRH3eAaxH9QSPqoT8YmM9ZmD9YGK9Y6A8W5g8W1rssjFccrlbOQX9QiLFKfzCIejytPAKu579jbcVCPVhY67LQHyzsPTjYe7CI3lAPBvYeLEbVVh9x8W3lGvA3kxmlhzX1vvvUu7ZSj22MqnXtcVh66A+WHvacbdJeUH/MJ+0F1WM+I3tB49V2PUZ8Z62vtt+jEd9Z4xVLD/3Bukf6g3WPfF+7jf5gMSN/6I/2PbLeZTCj/9Af6vFbiHq8hs//pR6S6aGwnG+TTkvz6fI5OVd+/Hyf2jFb25SOWdu3dq2t9em013dWvkcvf8Rnig8ZS2F5ydYv2Wf5utJx8mPVtiud79I5S/Ot665dT2n/fPue/jCuz8d3r1jYE7CwBmXhMyUWxisW+oOFerAwn7Mwf7BQDxbmDxbqwcJ4xcL6ioXxioXvqLEwf7AwXrEwn7NQDxbGKxbmcxb6g4X9Bwv1YKEeLKx3WeTjDfz9trmUxhuk2tTGU9TGT+Tr1HYf9+Hr3fnngjY/JR3nE7VSo/3atMZy1D6P85e0tdeZo22uU9RIPRhYy7Hw2QwL9eAw8ncapU06jld/zMdxoyysrVj4HJmF/mBhrctCPVioBwvfK2KhP1hYX7EwXrFQDxbqwcL8wcL6ioV6sPirz3ffASs2E3A=
+  </data>
+ </layer>
+ <layer name="angle_rock_left" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt28cJA1AMREH34Jxz7r8/bxGGL9AMvLuuAmkyAQAAAACgq2mapXlapOXYcdpbpXXapG3ajR2nvX06pGM6pfPQabika7qle3qMHae9Z3qld/qk79hxAAAAAAAAAPgjN0W1uCmqxU1RLW6KanFTBNCHnaEWO0MtdoZa7Ay12BkAAAAAAAAAAAAAoB5/IrX4E6nFn0gt/kRq8ScCAAAAAAAAdPQD1HwMHQ==
+  </data>
+ </layer>
+ <layer name="angle_rock_right" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2klyAjAMRUEfKCRABmZwEu5/Jv4VWFAWuLvq7b1USW4NAAAAAAAAAAAA7veWFuk9faTl2OdMb5XW6TN9pe+xz5neT9qkbdql/djnTO+QjumUzuky9jnT6+k3/aX/dB36GgAAgNdgV1eLXV0tdnW12NXV0ptdHQAAAACP5YZRixtGLW4Ytbhh1NKbGwaMYn6rxfxWi/mtFvNbLb2Z3wAAAAAAAACAefl7V4u/d7X4e1eLv3e19ObvHQAAAMCzuQGieRtZ
+  </data>
+ </layer>
+ <layer name="beach_beach_sign_07" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2rkNwDAMA0Avl3f/gezWdYCQxR2gWoIqFhwDAAAAAAAAAAAAAAAAAACAL441Z/qIIul/XGvu4P426X88a97g/jb+AQAAAAAAAAAAAABZ6c47u3TnnZ3OOwBN5LYuclsXuQ0AAAAAAAAA4D8TppQGtQ==
+  </data>
+ </layer>
+ <layer name="DomLevel3_2x2_DomLevel3_2x2_1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztztcNAkEQBcHLD+85vIf8I+BlMaCtkvq/uw4AAAAAAAAA+GeDNEyjNE6TNC09atsszdMiLdMqrUuP2rZJ29SnXdqnQ+lR247plM7pkq7pVjnUuHt6pGd6pXf6lB4BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPyOL9hgCn4=
+  </data>
+ </layer>
+ <layer name="DomLevel6_3x2_DomLevel6_3x2_13" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2DEKwCAQBEC/6/8/kDomBguNSzIDV2ijuMqBpQAAAAAAAAAAAACz1N0b4JTBqjxqU9xrz2dlHk9jrne2V7PWGpn7q95Zv/U+Vq71JfLIon/ss6t/yGKc95FF/8gijyzyyKJ/ZPF/BQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAuQ64IRt8
+  </data>
+ </layer>
+ <layer name="DomLevel6_3x2_DomLevel6_3x2_14" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2kEOgjAQQFHO6/0PQIhLE9pp7TCh7yXuHBb9YCF4HM/7JH0AAAAAAAAAAKjPf0LqiK7xTBOd20bWYXT97mY0+Zo51/89o0e9Hrs3qdRj9LhvokctetSS1aN3b9AjZ673+3rkzEV67NykWo+RY79J1vO5Hn1W3SfNzOiRM2NPb1v92xOd230/v0TP3dU9yHkf1Zp3bfxavSbeSQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAESfa+Dx1
+  </data>
+ </layer>
+ <layer name="DomPalma_DomPalma_6" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztxTkKACAMAEH/6/n/yvRCyoAwA8u2BgAAAAAAAAAAAAAAAAAAAADwtx6N5NSa0UpOrR2d5AAAAAAAAAAAAAAAAAAAAAAAAAAAwOsCzWQKRQ==
+  </data>
+ </layer>
+ <layer name="Mushrms_Mshrm_21" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2NsKwkAMBND+snf9e0OfpEixoJuRngN5X1jChJkmAAAAAAAA4BsONceaU/dDmJ1rLjXX7ocwu9Xcax7dDwEAAGCz0Z2HjmXd6M5Dx7JudOehYwHgE+6pLO6pLO4pAAAA9kJHlGXZEfmfXsuOSIfX73UndHj97EQWOwH/zd2XRcZlkXEAAACwnb4pi74pi74J+AXZm0X2ZpG9AMA7bugsbugsbmj2SjZkkQ1ZZAMwmlzOIpezyGUAAAAAtngC6TY1eg==
+  </data>
+ </layer>
+ <layer name="Reservoir_Reservoir_3" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt3NkRwjAAQ8HUTSAJR27oGVWBPXh35v2rAnUdAAAAAAAAAAAAAAAAAAAAAEBbLqlP13RLQ9k5zRvTlO7pkZ5F1/BKc1rSmrayc5q3pyOd6Z0+ZecAAAAAAAAAAAAAAAAAAMDP+Aaoi2+AuvgGqItvAAAAAID/9QX8hhSN
+  </data>
+ </layer>
+</map>
