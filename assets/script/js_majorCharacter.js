@@ -20,25 +20,21 @@ cc.Class({
         this.sprite = this.node.getComponent(cc.Sprite); 
         this.tiledMap = this.node.parent.getComponent(cc.TiledMap);
         this.boxCollider = this.node.getComponent(cc.BoxCollider);
+        this.node.group = "map";
         this.speed = 2;
         this.colliders = [];
         this.keyCode = null;
         this.isKeyDown = false;
-        this.isCollision = false;
         this.setInputControl();
     },
     onCollisionEnter: function (other, self) {
         var keyCode = this.keyCode;
-        this.isCollision = true;
         var tempPositon = this.node.getPosition();
         var rect1Pos = other.offset.add(other.node.getPosition());
         var rect2Pos = self.offset.add(self.node.getPosition());
         var colliderArea = this.calcCollisionArea(rect1Pos,other.size,rect2Pos,self.size);
-        var colliderInfo = {
-            collider:other,
-            colliderArea:colliderArea
-        };
-        this.colliders.push(colliderInfo);
+        var collider = other;
+        this.colliders.push(collider);
         switch(this.keyCode) {
             case cc.KEY.up:
                 tempPositon.y -= colliderArea.y + 1;
@@ -55,18 +51,18 @@ cc.Class({
         }
         this.node.setPosition(tempPositon);
         
-        cc.log("enter "+other.node.name);
-        cc.log(other.node.name + "collider area is "+colliderArea);
+        //cc.log("enter "+other.node.name);
+        //cc.log(other.node.name + "collider area is "+colliderArea);
     },
     onCollisionStay: function (other, self) {
 
     },
     onCollisionExit: function (other, self) {
         for (var index = 0; index < this.colliders.length; index++) {
-            var colliderInfo = this.colliders[index];
-            if(colliderInfo.collider.node.name == other.node.name){
+            var collider = this.colliders[index];
+            if(collider.node.name == other.node.name){
                 this.colliders.splice(index,1);
-                cc.log("remove "+other.node.name);
+                //cc.log("remove "+other.node.name);
                 return;
             } 
         }
@@ -91,7 +87,6 @@ cc.Class({
             onKeyPressed: function(keyCode, event){
                 self.keyCode = keyCode;
                 self.isKeyDown = true;
-                
             },
             onKeyReleased: function(keyCode, event){
                 if(self.keyCode == keyCode){
@@ -133,21 +128,14 @@ cc.Class({
     },
     isNextPostionAccessible(nextPosition){
         for (var index = 0; index < this.colliders.length; index++) {
-            var colliderInfo = this.colliders[index];
-            var otherPos = colliderInfo.collider.offset.add(colliderInfo.collider.node.getPosition());
+            var collider = this.colliders[index];
+            var otherPos = collider.offset.add(collider.node.getPosition());
             var selfPos = this.boxCollider.offset.add(nextPosition);
-            var colliderArea = colliderInfo.colliderArea;
-            var nextColliderArea = this.calcCollisionArea(otherPos,colliderInfo.collider.size,selfPos,this.boxCollider.size);
-            cc.log(colliderInfo.collider.node.name + " collider next area is "+nextColliderArea);
+            var nextColliderArea = this.calcCollisionArea(otherPos,collider.size,selfPos,this.boxCollider.size);
+            //cc.log(colliderInfo.collider.node.name + " collider next area is "+nextColliderArea);
             if(nextColliderArea.x > 0 || nextColliderArea.y > 0){
                 return false;
             }
-            /* if(colliderArea.x < colliderArea.y){
-                if(nextColliderArea.x > colliderArea.x)    return false;
-            }
-            else{
-                if(nextColliderArea.y > colliderArea.y)    return false;
-            } */
         }
         return true;
     },

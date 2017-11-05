@@ -20,6 +20,9 @@ cc.Class({
         //获取地图
         this.tiledMap = this.node.parent.getComponent(cc.TiledMap);
 
+        //添加碰撞分组
+        this.node.group = "map";
+
         //获取此节点的渲染相关信息
         var grassInfo = JSON.parse(cc.sys.localStorage.getItem(this.node.name));
         var spriteFrame = grassInfo.spriteFrame;

@@ -32,6 +32,7 @@ cc.Class({
         this.mapSize = new cc.Size();
         this.mapSize.width = this.map.getMapSize().width * this.map.getTileSize().width;
         this.mapSize.height = this.map.getMapSize().height * this.map.getTileSize().height;
+
     },
     updateCameraPosition:function(){
         if(this.zoomRatio*(this.mapSize.width/2 - (Math.abs(this.majorCharactor.getPosition().x))) > this.winSize.width/2){
