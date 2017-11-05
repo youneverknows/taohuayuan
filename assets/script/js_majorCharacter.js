@@ -12,27 +12,78 @@ cc.Class({
         //    readonly: false,    // optional, default is false
         // },
         // ..s'pe
-        animation:{
-            default:null,
-            type:cc.Animation
-        },
-        sprite:{
-            default:null,
-            type:cc.Sprite
-        },
-
     },
 
     // use this for initialization
     onLoad: function () {
         this.animation = this.node.getComponent(cc.Animation);
         this.sprite = this.node.getComponent(cc.Sprite); 
-        this.speed = 3;
+        this.tiledMap = this.node.parent.getComponent(cc.TiledMap);
+        this.boxCollider = this.node.getComponent(cc.BoxCollider);
+        this.speed = 2;
+        this.colliders = [];
         this.keyCode = null;
         this.isKeyDown = false;
+        this.isCollision = false;
         this.setInputControl();
     },
+    onCollisionEnter: function (other, self) {
+        var keyCode = this.keyCode;
+        this.isCollision = true;
+        var tempPositon = this.node.getPosition();
+        var rect1Pos = other.offset.add(other.node.getPosition());
+        var rect2Pos = self.offset.add(self.node.getPosition());
+        var colliderArea = this.calcCollisionArea(rect1Pos,other.size,rect2Pos,self.size);
+        var colliderInfo = {
+            collider:other,
+            colliderArea:colliderArea
+        };
+        this.colliders.push(colliderInfo);
+        switch(this.keyCode) {
+            case cc.KEY.up:
+                tempPositon.y -= colliderArea.y + 1;
+                break;
+            case cc.KEY.down:
+                tempPositon.y += colliderArea.y + 1;
+                break;
+            case cc.KEY.left:
+                tempPositon.x += colliderArea.x + 1;
+                break;
+            case cc.KEY.right:
+                tempPositon.x -= colliderArea.x + 1;
+                break;
+        }
+        this.node.setPosition(tempPositon);
+        
+        cc.log("enter "+other.node.name);
+        cc.log(other.node.name + "collider area is "+colliderArea);
+    },
+    onCollisionStay: function (other, self) {
 
+    },
+    onCollisionExit: function (other, self) {
+        for (var index = 0; index < this.colliders.length; index++) {
+            var colliderInfo = this.colliders[index];
+            if(colliderInfo.collider.node.name == other.node.name){
+                this.colliders.splice(index,1);
+                cc.log("remove "+other.node.name);
+                return;
+            } 
+        }
+    },
+    calcCollisionArea:function(rect1,size1,rect2,size2) {
+        rect1 = rect1.sub(new cc.Vec2(size1.width/2,size1.height/2));
+        rect2 = rect2.sub(new cc.Vec2(size2.width/2,size2.height/2));
+        var endx = Math.max(rect1.x + size1.width,rect2.x+size2.width);
+        var startx = Math.min(rect1.x,rect2.x);
+        var width = size1.width + size2.width - (endx - startx);
+
+        var endy = Math.max(rect1.y + size1.height,rect2.y+size2.height);
+        var starty = Math.min(rect1.y,rect2.y);
+        var height = size1.height + size2.height - (endy - starty);
+
+        return new cc.Vec2(width,height);
+    },
     setInputControl:function(){
         var self = this;
         cc.eventManager.addListener({
@@ -50,28 +101,65 @@ cc.Class({
         }, self.node);
     },
     updateMajorPosition:function(){
-        var nextPosition = this.node.getPosition();
+        this.nextPosition = this.node.getPosition();
         if(this.isKeyDown){
             switch(this.keyCode) {
                 case cc.KEY.up:
-                    nextPosition.y += this.speed;
+                    this.nextPosition.y += this.speed;
                     break;
                 case cc.KEY.down:
                     //this.node.rotation = 180;
-                    nextPosition.y -= this.speed;
+                    this.nextPosition.y -= this.speed;
                     break;
                 case cc.KEY.left:
                     //this.node.rotation = -90;
-                    nextPosition.x -= this.speed;
+                    this.nextPosition.x -= this.speed;
                     break;
                 case cc.KEY.right:
                     //this.node.rotation = 90;
-                    nextPosition.x += this.speed;
+                    this.nextPosition.x += this.speed;
                     break;
-             }
-             this.node.setPosition(nextPosition); 
+            }
+            /* if(!this.isCollision){
+                this.node.setPosition(this.nextPosition); 
+                this.node.setLocalZOrder(this.realPosition2tilePosition(this.nextPosition).y);
+            } */
+            if(this.isNextPostionAccessible(this.nextPosition)){
+                this.node.setPosition(this.nextPosition); 
+                this.node.setLocalZOrder(this.realPosition2tilePosition(this.nextPosition).y);
+            }
         }
         this.startOrStopAnimation();
+    },
+    isNextPostionAccessible(nextPosition){
+        for (var index = 0; index < this.colliders.length; index++) {
+            var colliderInfo = this.colliders[index];
+            var otherPos = colliderInfo.collider.offset.add(colliderInfo.collider.node.getPosition());
+            var selfPos = this.boxCollider.offset.add(nextPosition);
+            var colliderArea = colliderInfo.colliderArea;
+            var nextColliderArea = this.calcCollisionArea(otherPos,colliderInfo.collider.size,selfPos,this.boxCollider.size);
+            cc.log(colliderInfo.collider.node.name + " collider next area is "+nextColliderArea);
+            if(nextColliderArea.x > 0 || nextColliderArea.y > 0){
+                return false;
+            }
+            /* if(colliderArea.x < colliderArea.y){
+                if(nextColliderArea.x > colliderArea.x)    return false;
+            }
+            else{
+                if(nextColliderArea.y > colliderArea.y)    return false;
+            } */
+        }
+        return true;
+    },
+    realPosition2tilePosition:function(position){
+        var tempPositon = new cc.Vec2(position.x,position.y);
+        var mapSize = this.tiledMap.getMapSize();
+        var tileSize = this.tiledMap.getTileSize();
+        tempPositon.x = tempPositon.x + mapSize.width*tileSize.width/2;
+        tempPositon.y = tempPositon.y + mapSize.height*tileSize.height/2;
+        var x = tempPositon.x / tileSize.width;
+        var y = (mapSize.height*tileSize.height - tempPositon.y) / tileSize.height;
+        return new cc.Vec2(x, y);
     },
     startOrStopAnimation:function() {
         if(this.isKeyDown){
