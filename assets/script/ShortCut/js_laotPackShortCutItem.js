@@ -1,12 +1,3 @@
-var ShortCutItem = cc.Class({
-    name: 'ShortCutItem',
-    properties: {
-        itemName: '',
-        itemFrame: cc.SpriteFrame,
-        itemIcon: cc.SpriteFrame,
-        itemNum: 0
-    }
-});
 
 
 cc.Class({
@@ -23,10 +14,7 @@ cc.Class({
         //    readonly: false,    // optional, default is false
         // },
         // ...
-        items: {
-            default: [],
-            type: ShortCutItem
-        },
+
 
         itemPrefab:{
             default:null,
@@ -37,23 +25,70 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
 
-        for (var i = 0; i < this.items.length; ++i) {
-            var item = cc.instantiate(this.itemPrefab);
-            var data = this.items[i];
-            if (data.itemIcon == null){
-                item.getChildByName('btnPackItemIcon').active = false;
-                item.getChildByName('lelPackItemNum').active = false;
-            }
-            this.node.addChild(item);
-            item.getComponent('js_pfbPackItemTmp').init({
-                itemName: data.itemName,
-                itemFrame: data.itemFrame,
-                itemIcon: data.itemIcon,
-                itemNum: data.itemNum
-            });
+        this.onInitItemList();
+        
+        this.onShowItemList();
+        
+    },
+    onInitItemList: function () {
+        var itemFrameUrl = cc.url.raw("resources/image/pack/PackItemFrame.png");
+        var itemWebUrl = cc.url.raw("resources/image/pack/PackCobweb.png");
+        var itemToolUrl = cc.url.raw("resources/image/pack/PackItemTools.png");
+
+        this.packItemList = [];
+
+        for (var index = 0; index <  SHORTCUT_ITEM_NUM; index++) {
+            var element = {
+                itemName: "",
+                itemFrameUrl: itemFrameUrl,
+                itemIconUrl: null,
+                itemNum: ""
+            };
+            this.packItemList.push(element);
         }
+
+        
+        this.packItemList[4].itemName = "web";
+        this.packItemList[4].itemIconUrl = itemWebUrl;
+        this.packItemList[4].itemNum = "5";
+
+        this.packItemList[1].itemName = "tool";
+        this.packItemList[1].itemIconUrl = itemToolUrl;
+        this.packItemList[1].itemNum = "9";
+        
+
+        cc.sys.localStorage.setItem("g_packItemNum", this.packItemList.length);
+        for (var index = 0; index < this.packItemList.length; index++) {
+            cc.sys.localStorage.setItem("g_packItemList" + (index + PACK_ITEM_NUM), JSON.stringify(this.packItemList[index]));
+            cc.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + (index + PACK_ITEM_NUM));
+        }
+
     },
 
+    onShowItemList: function () {
+
+        var itemNodeData = null;
+        var g_packItemNum = cc.sys.localStorage.getItem("g_packItemNum");
+
+        for (var index = PACK_ITEM_NUM; index < PACK_ITEM_NUM + SHORTCUT_ITEM_NUM; index++) {
+
+            
+            itemNodeData = JSON.parse(cc.sys.localStorage.getItem("g_packItemList" + index));
+            var itemNode = cc.instantiate(this.itemPrefab);
+            itemNode.name = "g_packItemList" + index;
+
+            this.node.addChild(itemNode);
+
+            itemNode.getComponent('js_pfbPackItemTmp').init({
+                itemName: itemNodeData.itemName,
+                itemFrame: itemNodeData.itemFrameUrl,
+                itemIcon: itemNodeData.itemIconUrl,
+                itemNum: itemNodeData.itemNum
+            });
+
+        }
+        
+    }
     // called every frame, uncomment this function to activate update callback
     // update: function (dt) {
 

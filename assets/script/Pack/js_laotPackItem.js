@@ -1,12 +1,4 @@
-var PackItem = cc.Class({
-    name: 'PackItem',
-    properties: {
-        itemName: '',
-        itemFrame: cc.SpriteFrame,
-        itemIcon: cc.SpriteFrame,
-        itemNum: 0
-    }
-});
+
 
 cc.Class({
     extends: cc.Component,
@@ -22,92 +14,127 @@ cc.Class({
         //    readonly: false,    // optional, default is false
         // },
         // ...
-        //itemPrefab: cc.Prefab,
-        items: {
-            default: [],
-            type: PackItem
-        },
 
-        itemPrefab:{
-            default:null,
-            type:cc.Prefab
+        itemPrefab: {
+            default: null,
+            type: cc.Prefab
         },
 
     },
 
     // use this for initialization
     onLoad: function () {
-        //var itemPrefabTmp = cc.instantiate(this.t_prefab);
-        //itemPrefabTmp.getChildByName("lelPackItemNum").getComponent(cc.Label).string  = 10;
-        //itemPrefabTmp.getChildByName("btnPackItem").getComponent(cc.Sprite).spriteFrame.setTexture(cc.url.raw('res/Pack/btnPackCobweb.png')); 
-        //itemPrefabTmp.parent = this.node;
-        //this.node.addChild(itemPrefabTmp);
 
-        //var itemPrefabTmp1 = cc.instantiate(this.t_prefab);
-        //itemPrefabTmp1.getChildByName("lelPackItemNum").getComponent(cc.Label).string  = 30;
-        //itemPrefabTmp1.getChildByName("btnPackItem").getComponent(cc.Sprite).spriteFrame.setTexture(cc.url.raw('res/Pack/btnPackItem.png')); 
-        //itemPrefabTmp1.parent = this.node;
-        
-        // 加载 SpriteFrame
-        /*var self = this;
-        var loadPackFrame;
-        var loadPackIcon1;
-        var loadPackIcon2;
-        cc.loader.loadRes("pack/PackItemFrame", cc.SpriteFrame, function (err, spriteFrame) {
-            //self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-            if(err) 
-                return cc.log("load failed" + err);
-            loadPackFrame = spriteFrame;
-        });
+        this.onInitItemList();
 
-        cc.loader.loadRes("pack/PackItemTools", cc.SpriteFrame, function (err, spriteFrame) {
-            //self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-            if(err) 
-                return cc.log("load failed" + err);
-            loadPackIcon1 = spriteFrame;
-        });
+        this.onShowItemList();
 
-        cc.loader.loadRes("pack/PackCobweb", cc.SpriteFrame, function (err, spriteFrame) {
-            //self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-            if(err) 
-                return cc.log("load failed" + err);
-            loadPackIcon2 = spriteFrame;
-        });    
-        
-        this.items = new Array(16);
-        cc.log("num "+ this.items.length);
-
-        for(var i = 0; i < 16; ++i){
-            var itemtmp = new Item;
-            
-            this.items[i].itemName = i;
-            this.items[i].itemNum = i;
-            this.items[i].itemFrame = loadPackFrame;
-            if (i % 2 == 0){
-                this.items[i].itemIcon = loadPackIcon1;
-            }
-            else{
-                this.items[i].itemIcon = loadPackIcon2;
-            }
-        }*/
-
-        for (var i = 0; i < this.items.length; ++i) {
-            var item = cc.instantiate(this.itemPrefab);
-            var data = this.items[i];
-            if (data.itemIcon == null){
-                item.getChildByName('btnPackItemIcon').active = false;
-                item.getChildByName('lelPackItemNum').active = false;
-            }
-
-            this.node.addChild(item);
-            item.getComponent('js_pfbPackItemTmp').init({
-                itemName: data.itemName,
-                itemFrame: data.itemFrame,
-                itemIcon: data.itemIcon,
-                itemNum: data.itemNum
-            });
-        }
     },
+
+    onInitItemList: function () {
+
+        var itemFrameUrl = cc.url.raw("resources/image/pack/PackItemFrame.png");
+        var itemWebUrl = cc.url.raw("resources/image/pack/PackCobweb.png");
+        var itemToolUrl = cc.url.raw("resources/image/pack/PackItemTools.png");
+
+        this.packItemList = [];
+
+        for (var index = 0; index < PACK_ITEM_NUM; index++) {
+            var element = {
+                itemName: "",
+                itemFrameUrl: itemFrameUrl,
+                itemIconUrl: null,
+                itemNum: ""
+            };
+            this.packItemList.push(element);
+        }
+
+        
+        this.packItemList[0].itemName = "web";
+        this.packItemList[0].itemIconUrl = itemWebUrl;
+        this.packItemList[0].itemNum = "30";
+
+        this.packItemList[1].itemName = "tool";
+        this.packItemList[1].itemIconUrl = itemToolUrl;
+        this.packItemList[1].itemNum = "10";
+
+        /*this.packItemList = [
+            {
+                itemFrom: 'pack',
+                itemName: 'web',
+                itemFrameUrl: itemFrameUrl,
+                itemIconUrl: itemWebUrl,
+                itemNum: "5"
+            },
+            {
+                itemFrom: 'pack',
+                itemName: 'tool',
+                itemFrameUrl: itemFrameUrl,
+                itemIconUrl: itemToolUrl,
+                itemNum: "10"
+            },
+            {
+                itemFrom: 'pack',
+                itemName: 'web',
+                itemFrameUrl: itemFrameUrl,
+                itemIconUrl: itemWebUrl,
+                itemNum: "15"
+            },
+            {
+                itemFrom: 'pack',
+                itemName: 'tool',
+                itemFrameUrl: itemFrameUrl,
+                itemIconUrl: null,
+                itemNum: ""
+            },
+            {
+                itemFrom: 'pack',
+                itemName: 'web',
+                itemFrameUrl: itemFrameUrl,
+                itemIconUrl: itemToolUrl,
+                itemNum: "25"
+            },
+            {
+                itemFrom: 'pack',
+                itemName: 'tool',
+                itemFrameUrl: itemFrameUrl,
+                itemIconUrl: itemWebUrl,
+                itemNum: "30"
+            }
+        ];*/
+
+        cc.sys.localStorage.setItem("g_packItemNum", this.packItemList.length);
+        for (var index = 0; index < this.packItemList.length; index++) {
+            cc.sys.localStorage.setItem("g_packItemList" + index, JSON.stringify(this.packItemList[index]));
+        }
+
+    },
+
+    onShowItemList: function () {
+
+        var itemNodeData = null;
+        var g_packItemNum = cc.sys.localStorage.getItem("g_packItemNum");
+
+        for (var index = 0; index < g_packItemNum; index++) {
+
+            //获取此节点的渲染相关信息
+            itemNodeData = JSON.parse(cc.sys.localStorage.getItem("g_packItemList" + index));
+            var itemNode = cc.instantiate(this.itemPrefab);
+            itemNode.name = "g_packItemList" + index;
+
+            this.node.addChild(itemNode);
+
+            itemNode.getComponent('js_pfbPackItemTmp').init({
+                itemName: itemNodeData.itemName,
+                itemFrame: itemNodeData.itemFrameUrl,
+                itemIcon: itemNodeData.itemIconUrl,
+                itemNum: itemNodeData.itemNum
+            });
+
+        }
+
+    },
+
 
     // called every frame, uncomment this function to activate update callback
     // update: function (dt) {

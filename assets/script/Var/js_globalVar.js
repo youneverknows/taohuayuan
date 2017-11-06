@@ -1,14 +1,12 @@
 
 //全局物品定义
-window.g_Item = cc.Class({
-    name: 'g_Item',
-    properties: {
-        itemName: '',
-        itemFrame: cc.SpriteFrame,
-        itemIcon: cc.SpriteFrame,
-        itemNum: 0
-    }
-});
+
+
+window.PACK_ITEM_NUM = 18;
+
+window.SHORTCUT_ITEM_NUM = 5;
+
+window.EQUIP_ITEM_NUM = 3;
 
 cc.Class({
     extends: cc.Component,
