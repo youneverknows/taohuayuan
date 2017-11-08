@@ -1,11 +1,18 @@
 {
   "collision-matrix": [
     [
+      true,
       false,
       false
     ],
     [
       false,
+      true,
+      true
+    ],
+    [
+      false,
+      true,
       true
     ]
   ],
@@ -16,7 +23,8 @@
   "fit-width": false,
   "group-list": [
     "default",
-    "map"
+    "map",
+    "grass"
   ],
   "simulator-orientation": false,
   "simulator-resolution": {

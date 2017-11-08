@@ -36,7 +36,7 @@ cc.Class({
         });
     },
     initMapData:function(){
-        var grassTextureName = "Beach_beach_sign_07";
+        var grassTextureName = "grass_normal";
         this.grassInfo = [
             {
                 spriteFrame:grassTextureName,
@@ -45,10 +45,22 @@ cc.Class({
                 zOrder:30
             },
             {
-                spriteFrame:"DomPalma_DomPalma_6",
+                spriteFrame:grassTextureName,
                 positionX: 50,
-                positionY: 33,
-                zOrder:33
+                positionY: 31,
+                zOrder:31
+            },
+            {
+                spriteFrame:grassTextureName,
+                positionX: 50,
+                positionY: 32,
+                zOrder:32
+            },
+            {
+                spriteFrame:grassTextureName,
+                positionX: 51,
+                positionY: 31,
+                zOrder:31
             }
         ];
         cc.sys.localStorage.setItem("grassInfoLength",this.grassInfo.length);

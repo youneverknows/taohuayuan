@@ -28,28 +28,27 @@ cc.Class({
         this.setInputControl();
     },
     onCollisionEnter: function (other, self) {
-        var keyCode = this.keyCode;
-        var tempPositon = this.node.getPosition();
-        var rect1Pos = other.offset.add(other.node.getPosition());
-        var rect2Pos = self.offset.add(self.node.getPosition());
-        var colliderArea = this.calcCollisionArea(rect1Pos,other.size,rect2Pos,self.size);
-        var collider = other;
-        this.colliders.push(collider);
-        switch(this.keyCode) {
-            case cc.KEY.up:
-                tempPositon.y -= colliderArea.y + 1;
+        var colliderGroup = other.node.group;
+        cc.log("colliderGroup == "+colliderGroup)
+        this.colliders.push(other);
+        switch(colliderGroup){
+            case "grass":
+            {
+                this.onCollisionGrass(other, self);
                 break;
-            case cc.KEY.down:
-                tempPositon.y += colliderArea.y + 1;
+            }
+            case "box":
+            {
+                this.onCollisionBox(other,self);
                 break;
-            case cc.KEY.left:
-                tempPositon.x += colliderArea.x + 1;
+            }
+            default:
+            {
                 break;
-            case cc.KEY.right:
-                tempPositon.x -= colliderArea.x + 1;
-                break;
+            }
+            
         }
-        this.node.setPosition(tempPositon);
+        
         
         //cc.log("enter "+other.node.name);
         //cc.log(other.node.name + "collider area is "+colliderArea);
@@ -66,6 +65,43 @@ cc.Class({
                 return;
             } 
         }
+    },
+    onCollisionGrass: function(other,self) {
+        var sprite = other.node.getComponent(cc.Sprite);
+        cc.eventManager.addListener({
+            event:cc.EventListener.KEYBOARD,
+            onKeyPressed: function(keyCode, event){
+                
+            },
+            onKeyReleased: function(keyCode, event){
+                console.log(event);
+                if(keyCode == cc.KEY.space){
+                    sprite.spriteFrame = window.mapSpriteAtlas.getSpriteFrame("grass_cutdown");
+                }
+            }
+        }, self.node);
+    },
+    onCollisionBox:function(other,self) {
+        var keyCode = this.keyCode;
+        var tempPositon = this.node.getPosition();
+        var rect1Pos = other.offset.add(other.node.getPosition());
+        var rect2Pos = self.offset.add(self.node.getPosition());
+        var colliderArea = this.calcCollisionArea(rect1Pos,other.size,rect2Pos,self.size);
+        switch(this.keyCode) {
+            case cc.KEY.up:
+                tempPositon.y -= colliderArea.y + 1;
+                break;
+            case cc.KEY.down:
+                tempPositon.y += colliderArea.y + 1;
+                break;
+            case cc.KEY.left:
+                tempPositon.x += colliderArea.x + 1;
+                break;
+            case cc.KEY.right:
+                tempPositon.x -= colliderArea.x + 1;
+                break;
+        }
+        this.node.setPosition(tempPositon);
     },
     calcCollisionArea:function(rect1,size1,rect2,size2) {
         rect1 = rect1.sub(new cc.Vec2(size1.width/2,size1.height/2));
@@ -129,12 +165,25 @@ cc.Class({
     isNextPostionAccessible(nextPosition){
         for (var index = 0; index < this.colliders.length; index++) {
             var collider = this.colliders[index];
-            var otherPos = collider.offset.add(collider.node.getPosition());
-            var selfPos = this.boxCollider.offset.add(nextPosition);
-            var nextColliderArea = this.calcCollisionArea(otherPos,collider.size,selfPos,this.boxCollider.size);
-            //cc.log(colliderInfo.collider.node.name + " collider next area is "+nextColliderArea);
-            if(nextColliderArea.x > 0 || nextColliderArea.y > 0){
-                return false;
+            switch (collider.node.group) {
+                case "grass":
+                {
+                    //不做处理
+                    break;
+                }
+                case "box":
+                {
+                    var otherPos = collider.offset.add(collider.node.getPosition());
+                    var selfPos = this.boxCollider.offset.add(nextPosition);
+                    var nextColliderArea = this.calcCollisionArea(otherPos,collider.size,selfPos,this.boxCollider.size);
+                    //cc.log(colliderInfo.collider.node.name + " collider next area is "+nextColliderArea);
+                    if(nextColliderArea.x > 0 || nextColliderArea.y > 0){
+                        return false;
+                    }
+                    break;
+                }
+                default:
+                    break;
             }
         }
         return true;

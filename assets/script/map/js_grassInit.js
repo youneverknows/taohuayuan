@@ -21,7 +21,8 @@ cc.Class({
         this.tiledMap = this.node.parent.getComponent(cc.TiledMap);
 
         //添加碰撞分组
-        this.node.group = "map";
+        this.node.group = "grass";
+        
 
         //获取此节点的渲染相关信息
         var grassInfo = JSON.parse(cc.sys.localStorage.getItem(this.node.name));
@@ -37,10 +38,15 @@ cc.Class({
         //设置阶段的zOrder
         this.node.setLocalZOrder(zOrder);
 
-        //添加碰撞组件
-        var boxCollider = this.node.addComponent(cc.BoxCollider);
-        boxCollider.offset = new cc.Vec2(0,-20);
-        boxCollider.size = new cc.Size(60,30);
+        //添加矩形碰撞组件
+        /* var boxCollider = this.node.addComponent(cc.BoxCollider);
+        boxCollider.offset = new cc.Vec2(0,-30);
+        boxCollider.size = new cc.Size(40,20); */
+
+        //添加圆形碰撞组件
+        var boxCollider = this.node.addComponent(cc.CircleCollider);
+        boxCollider.offset = new cc.Vec2(0,-30);
+        boxCollider.radius = 60; 
     },
     tilePosition2RealPositon(position){
         var mapSize = this.tiledMap.getMapSize();

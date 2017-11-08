@@ -25,15 +25,6 @@ cc.Class({
 
         var self = this;
 
-        //获取碰撞检测系统
-        var manager = cc.director.getCollisionManager();
-
-        //默认碰撞检测系统是禁用的，如果需要使用则需要以下方法开启碰撞检测系统
-        manager.enabled = true;
-        
-        //默认碰撞检测系统的 debug 绘制是禁用的，如果需要使用则需要以下方法开启 debug 绘制
-        //manager.enabledDebugDraw = true;
-
         var nodeItemIcon = this.node;
 
         //节点起始位置
